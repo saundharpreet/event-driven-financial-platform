@@ -79,8 +79,14 @@ public class EodTransaction {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("transactionId", transactionId).append("accountNumber", accountNumber)
-                .append("type", type).append("amount", amount).append("currency", currency)
-                .append("timestamp", timestamp).append("merchant", merchant).append("channel", channel).toString();
+        return new ToStringBuilder(this).append("transactionId", transactionId)
+                .append("accountNumber", accountNumber)
+                .append("type", type)
+                .append("amount", amount)
+                .append("currency", currency)
+                .append("timestamp", timestamp)
+                .append("merchant", merchant)
+                .append("channel", channel)
+                .toString();
     }
 }

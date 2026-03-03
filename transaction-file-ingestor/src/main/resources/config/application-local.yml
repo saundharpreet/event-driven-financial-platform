@@ -12,6 +12,14 @@ spring:
     driver-class-name: "org.postgresql.Driver"
     hikari:
       schema: "tranaction_file_ingester"
+  kafka:
+    bootstrap-servers: "localhost:9092"
+    properties:
+      "[schema.registry.url]": "http://localhost:8081"
+    client-id: ${project.name}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
 
 inbound-channel:
   remote-directory: "/upload"
@@ -22,3 +30,9 @@ inbound-channel:
 
 metadata-store:
   file-name-prefix: "remote:"
+
+batch:
+  chunk-size: 100
+
+outbound-channel:
+  topic-name: "eod-transaction-event"

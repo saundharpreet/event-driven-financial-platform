@@ -7,6 +7,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.file.filters.ChainFileListFilter;
 import org.springframework.integration.file.remote.session.SessionFactory;
@@ -38,6 +39,11 @@ public class InboundChannelConfig implements InitializingBean {
     private String metadataStoreFileNamePrefix;
 
     @Bean
+    public DirectChannel fileToBatchJobChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
     public ChainFileListFilter<SftpClient.DirEntry> fileListFilter(ConcurrentMetadataStore metadataStore) {
         ChainFileListFilter<SftpClient.DirEntry> filter = new ChainFileListFilter<>();
         filter.addFilter(new SftpRegexPatternFileListFilter(filenamePattern));
@@ -48,17 +54,17 @@ public class InboundChannelConfig implements InitializingBean {
 
     @Bean
     public IntegrationFlow inboundFileFlow(SessionFactory<SftpClient.DirEntry> sessionFactory,
-            ChainFileListFilter<SftpClient.DirEntry> fileListFilter) {
+            ChainFileListFilter<SftpClient.DirEntry> fileListFilter, DirectChannel fileToBatchJobChannel) {
         return IntegrationFlow
-                .from(Sftp.inboundAdapter(sessionFactory) //
-                                .preserveTimestamp(true) //
-                                .maxFetchSize(1) //
-                                .remoteDirectory(remoteDirectory) //
-                                .autoCreateLocalDirectory(true) //
-                                .localDirectory(new File(localDirectory)) //
-                                .filter(fileListFilter), //
-                        spec -> spec.poller(p -> p.fixedDelay(pollerFixedDelay)))
-                .handle(file -> logger.info("Processing file: {}", file)).get();
+                .from(Sftp.inboundAdapter(sessionFactory)
+                        .preserveTimestamp(false)
+                        .maxFetchSize(1)
+                        .remoteDirectory(remoteDirectory)
+                        .autoCreateLocalDirectory(true)
+                        .localDirectory(new File(localDirectory))
+                        .filter(fileListFilter), spec -> spec.poller(p -> p.fixedDelay(pollerFixedDelay)))
+                .channel(fileToBatchJobChannel)
+                .get();
     }
 
     @Override
