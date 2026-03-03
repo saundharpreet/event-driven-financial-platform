@@ -56,6 +56,7 @@ public class OutboundChannelConfig implements InitializingBean {
     public IntegrationFlow outboundKafkaFlow(KafkaTemplate<String, EodTransactionEvent> kafkaTemplate) {
         return IntegrationFlow.from("batchJobToKafkaRequestChannel")
                 .split()
+                .log()
                 .handle(Kafka.outboundChannelAdapter(kafkaTemplate)
                         .topic(outboundTopicName)
                         .sendSuccessChannel("kafkaSendSuccessChannel")

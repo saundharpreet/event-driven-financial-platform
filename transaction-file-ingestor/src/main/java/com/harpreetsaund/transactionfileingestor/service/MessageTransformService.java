@@ -2,6 +2,7 @@ package com.harpreetsaund.transactionfileingestor.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.job.Job;
 import org.springframework.batch.core.job.parameters.JobParameters;
 import org.springframework.batch.core.job.parameters.JobParametersBuilder;
 import org.springframework.batch.integration.launch.JobLaunchRequest;
@@ -17,7 +18,13 @@ public class MessageTransformService {
 
     private static final Logger logger = LoggerFactory.getLogger(MessageTransformService.class);
 
-    @Transformer(inputChannel = "fileToBatchJobChannel")
+    private final Job fileToKafkaJob;
+
+    public MessageTransformService(Job fileToKafkaJob) {
+        this.fileToKafkaJob = fileToKafkaJob;
+    }
+
+    @Transformer
     public Message<JobLaunchRequest> transformFileToBatchJobRequest(Message<File> inboundMessage) {
         File inboundFile = inboundMessage.getPayload();
 
@@ -27,7 +34,7 @@ public class MessageTransformService {
                 .addString("input.filepath", inboundFile.getAbsolutePath())
                 .toJobParameters();
 
-        JobLaunchRequest jobLaunchRequest = new JobLaunchRequest(null, jobParameters);
+        JobLaunchRequest jobLaunchRequest = new JobLaunchRequest(fileToKafkaJob, jobParameters);
 
         return MessageBuilder.withPayload(jobLaunchRequest).copyHeaders(inboundMessage.getHeaders()).build();
     }

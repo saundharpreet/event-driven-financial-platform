@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
@@ -19,7 +17,8 @@ public class EodTransactionEventMapper {
 
     private static final Logger logger = LoggerFactory.getLogger(EodTransactionEventMapper.class);
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
+            .ofPattern("yyyy-MM-dd'T'hh:mm:ss'Z'");
 
     @Value("${outbound-channel.topic-name}")
     private String outboundTopicName;
@@ -42,9 +41,7 @@ public class EodTransactionEventMapper {
         eventPayload.setTransactionType(mapTransactionType(eodTransaction.getType()));
         eventPayload.setAmount(new BigDecimal(eodTransaction.getAmount()).doubleValue());
         eventPayload.setCurrency(mapCurrency(eodTransaction.getCurrency()));
-        eventPayload.setTransactionTimestamp(LocalDateTime.parse(eodTransaction.getTimestamp(), DATE_TIME_FORMATTER)
-                .atZone(ZoneId.systemDefault())
-                .toInstant());
+        eventPayload.setTransactionTimestamp(Instant.ofEpochMilli(eodTransaction.getTimestamp()));
         eventPayload.setMerchantName(eodTransaction.getMerchant());
         eventPayload.setChannel(mapChannel(eodTransaction.getChannel()));
 

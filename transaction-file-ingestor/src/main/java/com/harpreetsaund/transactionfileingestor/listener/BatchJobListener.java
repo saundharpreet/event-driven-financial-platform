@@ -25,6 +25,7 @@ import org.springframework.batch.core.annotation.OnWriteError;
 import org.springframework.batch.core.job.JobExecution;
 import org.springframework.batch.core.step.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.batch.infrastructure.item.Chunk;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -93,17 +94,17 @@ public class BatchJobListener {
     }
 
     @BeforeWrite
-    public void beforeWrite(java.util.List<?> items) {
+    public void beforeWrite(Chunk<?> items) {
         logger.debug("Before writing {} items", items.size());
     }
 
     @AfterWrite
-    public void afterWrite(java.util.List<?> items) {
+    public void afterWrite(Chunk<?> items) {
         logger.debug("After writing {} items", items.size());
     }
 
     @OnWriteError
-    public void onWriteError(Exception exception, java.util.List<?> items) {
+    public void onWriteError(Exception exception, Chunk<?> items) {
         logger.error("Write error for {} items: {}", items.size(), exception.getMessage(), exception);
     }
 
@@ -113,12 +114,12 @@ public class BatchJobListener {
     }
 
     @BeforeChunk
-    public void beforeChunk(ChunkContext context) {
+    public void beforeChunk(Chunk<?> chunk) {
         logger.debug("Before chunk processing");
     }
 
     @AfterChunk
-    public void afterChunk(ChunkContext context) {
+    public void afterChunk(Chunk<?> chunk) {
         logger.debug("After chunk processing");
     }
 

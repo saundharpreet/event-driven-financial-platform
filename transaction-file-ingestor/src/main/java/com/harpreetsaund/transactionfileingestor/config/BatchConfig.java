@@ -8,6 +8,7 @@ import com.harpreetsaund.transactionfileingestor.processor.EodTransactionProcess
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.Job;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
@@ -19,12 +20,14 @@ import org.springframework.batch.infrastructure.item.file.mapping.BeanWrapperFie
 import org.springframework.batch.infrastructure.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.infrastructure.item.file.mapping.PatternMatchingCompositeLineMapper;
 import org.springframework.batch.infrastructure.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.infrastructure.item.file.transform.IncorrectTokenCountException;
 import org.springframework.batch.infrastructure.item.file.transform.LineTokenizer;
 import org.springframework.batch.integration.chunk.ChunkMessageChannelItemWriter;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.core.MessagingTemplate;
 
@@ -55,29 +58,36 @@ public class BatchConfig implements InitializingBean {
                 .processor(eodTransactionProcessor)
                 .writer(chunkMessageChannelItemWriter)
                 .listener(batchJobListener)
+                .faultTolerant()
+                .skip(IncorrectTokenCountException.class)
                 .build();
     }
 
     @Bean
-    public FlatFileItemReader<EodTransaction> flatFileItemReader() {
+    @StepScope
+    public FlatFileItemReader<EodTransaction> flatFileItemReader(
+            @Value("#{jobParameters['input.filepath']}") String resource) {
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
         lineTokenizer.setNames(EodTransactionFieldNames.getFieldNames());
+        lineTokenizer.setDelimiter(",");
 
         BeanWrapperFieldSetMapper<EodTransaction> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(EodTransaction.class);
 
         Map<String, LineTokenizer> tokenizers = new HashMap<>();
-        tokenizers.put("TXN*", lineTokenizer);
-        tokenizers.put("*", null);
+        tokenizers.put("*", lineTokenizer);
 
         Map<String, FieldSetMapper<EodTransaction>> fieldSetMappers = new HashMap<>();
-        fieldSetMappers.put("TXN*", fieldSetMapper);
-        fieldSetMappers.put("*", null);
+        fieldSetMappers.put("*", fieldSetMapper);
 
         PatternMatchingCompositeLineMapper<EodTransaction> lineMapper = new PatternMatchingCompositeLineMapper<>(
                 tokenizers, fieldSetMappers);
 
-        return new FlatFileItemReaderBuilder<EodTransaction>().linesToSkip(1).lineMapper(lineMapper).build();
+        return new FlatFileItemReaderBuilder<EodTransaction>().name("flatFileItemReader")
+                .resource(new FileSystemResource(resource))
+                .linesToSkip(1)
+                .lineMapper(lineMapper)
+                .build();
     }
 
     @Bean

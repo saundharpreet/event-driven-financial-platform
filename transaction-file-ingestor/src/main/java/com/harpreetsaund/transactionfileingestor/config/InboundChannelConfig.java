@@ -1,5 +1,6 @@
 package com.harpreetsaund.transactionfileingestor.config;
 
+import com.harpreetsaund.transactionfileingestor.service.MessageTransformService;
 import org.apache.sshd.sftp.client.SftpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +55,7 @@ public class InboundChannelConfig implements InitializingBean {
 
     @Bean
     public IntegrationFlow inboundFileFlow(SessionFactory<SftpClient.DirEntry> sessionFactory,
-            ChainFileListFilter<SftpClient.DirEntry> fileListFilter, DirectChannel fileToBatchJobChannel) {
+            ChainFileListFilter<SftpClient.DirEntry> fileListFilter, MessageTransformService messageTransformService) {
         return IntegrationFlow
                 .from(Sftp.inboundAdapter(sessionFactory)
                         .preserveTimestamp(false)
@@ -63,7 +64,8 @@ public class InboundChannelConfig implements InitializingBean {
                         .autoCreateLocalDirectory(true)
                         .localDirectory(new File(localDirectory))
                         .filter(fileListFilter), spec -> spec.poller(p -> p.fixedDelay(pollerFixedDelay)))
-                .channel(fileToBatchJobChannel)
+                .transform(messageTransformService, "transformFileToBatchJobRequest")
+                .channel("fileToBatchJobChannel")
                 .get();
     }
 
