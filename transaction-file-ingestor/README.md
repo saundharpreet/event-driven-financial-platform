@@ -14,8 +14,6 @@ A robust, enterprise-grade Spring Boot application designed to ingest end-of-day
 - [Configuration](#configuration)
 - [Development](#development)
 
----
-
 ## Overview
 
 The Transaction File Ingestor is a microservice that:
@@ -29,13 +27,9 @@ The Transaction File Ingestor is a microservice that:
 
 This service is optimized for high-volume transaction processing with built-in fault tolerance, idempotency, comprehensive monitoring, and seamless multi-instance deployment support.
 
----
-
 ## Architecture
 
 ![Project Architecture](architecture-diagram.png)
-
----
 
 ## Frameworks & Technologies
 
@@ -111,8 +105,6 @@ This service is optimized for high-volume transaction processing with built-in f
 - **Build Reproducibility:** Consistent builds across environments
 - **Multi-Module Support:** Enables future modular architecture expansion
 
----
-
 ## Key Features
 
 ### 1. **Reliable File Ingestion**
@@ -149,8 +141,6 @@ This service is optimized for high-volume transaction processing with built-in f
 - Automatic schema initialization on application startup
 - Batch metadata store for job tracking
 - **Shared state management:** PostgreSQL ensures consistency across distributed instances
-
----
 
 ## Distributed Processing & Multi-Instance Support
 
@@ -274,8 +264,6 @@ spec:
           periodSeconds: 5
 ```
 
----
-
 ## Project Structure
 
 ```
@@ -303,8 +291,6 @@ transaction-file-ingestor/
 ├── pom.xml                                    # Maven project configuration
 └── README.md                                  # This file
 ```
-
----
 
 ## Getting Started
 
@@ -412,8 +398,6 @@ To create a new migration:
 
 The project uses Eclipse Java formatting standards defined in `eclipse-java-style.xml`. Configure your IDE to use this style guide.
 
----
-
 ## Technology Selection Justification
 
 | Technology | Problem Solved | Rationale |
@@ -428,8 +412,6 @@ The project uses Eclipse Java formatting standards defined in `eclipse-java-styl
 | **Spring Actuator** | Production monitoring | Built-in health checks, metrics, Kubernetes-ready |
 | **Maven** | Build automation | Industry standard, extensive plugin ecosystem |
 
----
-
 ## API Endpoints
 
 ### Health & Monitoring
@@ -438,5 +420,3 @@ The project uses Eclipse Java formatting standards defined in `eclipse-java-styl
 - `GET /actuator/health/liveness` - Kubernetes liveness probe
 - `GET /actuator/health/readiness` - Kubernetes readiness probe
 - `GET /actuator/metrics` - Application metrics
-
----
