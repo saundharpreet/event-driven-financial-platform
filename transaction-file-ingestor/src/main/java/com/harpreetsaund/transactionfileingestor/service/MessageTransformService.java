@@ -1,15 +1,12 @@
 package com.harpreetsaund.transactionfileingestor.service;
 
-import com.harpreetsaund.transaction.avro.EodTransactionEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.job.Job;
 import org.springframework.batch.core.job.parameters.JobParameters;
 import org.springframework.batch.core.job.parameters.JobParametersBuilder;
-import org.springframework.batch.integration.chunk.ChunkRequest;
 import org.springframework.batch.integration.launch.JobLaunchRequest;
 import org.springframework.integration.annotation.Transformer;
-import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;

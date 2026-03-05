@@ -35,22 +35,22 @@ public class BatchJobListener {
 
     @BeforeJob
     public void beforeJob(JobExecution jobExecution) {
-        logger.info("Before executing job: {}", jobExecution);
+        logger.debug("Before executing job: {}", jobExecution);
     }
 
     @AfterJob
     public void afterJob(JobExecution jobExecution) {
-        logger.info("After executing job: {}", jobExecution);
+        logger.debug("After executing job: {}", jobExecution);
     }
 
     @BeforeStep
     public void beforeStep(StepExecution stepExecution) {
-        logger.info("Before executing step");
+        logger.debug("Before executing step");
     }
 
     @AfterStep
     public void afterStep(StepExecution stepExecution) {
-        logger.info("After executing step: {}", stepExecution.getSummary());
+        logger.debug("After executing step: {}", stepExecution.getSummary());
     }
 
     @BeforeRead

@@ -2,6 +2,8 @@ package com.harpreetsaund.transactionfileingestor.config;
 
 import com.harpreetsaund.transaction.avro.EodTransactionEvent;
 import com.harpreetsaund.transactionfileingestor.processor.EodTransactionEventChunkProcessor;
+import org.apache.commons.io.FileUtils;
+import org.apache.sshd.sftp.client.SftpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.launch.support.TaskExecutorJobOperator;
@@ -17,7 +19,13 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.core.MessagingTemplate;
-import org.springframework.messaging.MessageHandler;
+import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.file.remote.gateway.AbstractRemoteFileOutboundGateway;
+import org.springframework.integration.file.remote.session.SessionFactory;
+import org.springframework.integration.handler.LoggingHandler;
+import org.springframework.integration.sftp.dsl.Sftp;
+
+import java.io.File;
 
 @Configuration
 @EnableBatchIntegration
@@ -72,9 +80,16 @@ public class BatchIntegrationConfig implements InitializingBean {
     }
 
     @Bean
-    @ServiceActivator(inputChannel = "batchJobOutputChannel")
-    public MessageHandler jobLaunchOutputHandler() {
-        return message -> logger.debug("Received job launch response: {}", message);
+    public IntegrationFlow batchJobCleanupFlow(SessionFactory<SftpClient.DirEntry> sessionFactory) {
+        return IntegrationFlow.from("batchJobOutputChannel")
+                .enrichHeaders(configurer -> configurer.headerExpression("remoteFilePath",
+                        "headers['remoteFilePath'] + '/' + headers['file_remoteFile']"))
+//                .handle(Sftp
+//                        .outboundGateway(sessionFactory, AbstractRemoteFileOutboundGateway.Command.MV,
+//                                "headers['remoteFilePath']")
+//                        .renameExpression("headers['remoteFilePath'] + payload['status']"))
+                .handle(message -> FileUtils.deleteQuietly(message.getHeaders().get("file_originalFile", File.class)))
+                .get();
     }
 
     @Override

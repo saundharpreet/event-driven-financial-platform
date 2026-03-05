@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.core.MessagingTemplate;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,11 +50,13 @@ public class BatchConfig implements InitializingBean {
     }
 
     @Bean
-    public Step fileToKafkaStep(JobRepository jobRepository, FlatFileItemReader<EodTransaction> flatFileItemReader,
-            EodTransactionItemProcessor eodTransactionItemProcessor,
-            ChunkMessageChannelItemWriter<EodTransactionEvent> chunkMessageChannelItemWriter,
-            BatchJobListener batchJobListener) {
-        return new StepBuilder("fileToKafkaStep", jobRepository).<EodTransaction, EodTransactionEvent>chunk(100)
+    public Step fileToKafkaStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager, FlatFileItemReader<EodTransaction> flatFileItemReader,
+                                EodTransactionItemProcessor eodTransactionItemProcessor,
+                                ChunkMessageChannelItemWriter<EodTransactionEvent> chunkMessageChannelItemWriter,
+                                BatchJobListener batchJobListener) {
+        return new StepBuilder("fileToKafkaStep", jobRepository)
+                .<EodTransaction, EodTransactionEvent>chunk(100)
+                .transactionManager(platformTransactionManager)
                 .reader(flatFileItemReader)
                 .processor(eodTransactionItemProcessor)
                 .writer(chunkMessageChannelItemWriter)

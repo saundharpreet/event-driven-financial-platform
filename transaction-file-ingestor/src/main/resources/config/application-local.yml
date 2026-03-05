@@ -36,3 +36,6 @@ batch:
 
 outbound-channel:
   topic-name: "eod-transaction-event"
+
+server:
+  port: 0

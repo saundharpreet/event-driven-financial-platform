@@ -58,7 +58,7 @@ public class InboundChannelConfig implements InitializingBean {
             ChainFileListFilter<SftpClient.DirEntry> fileListFilter, MessageTransformService messageTransformService) {
         return IntegrationFlow
                 .from(Sftp.inboundAdapter(sessionFactory)
-                        .preserveTimestamp(false)
+                        .preserveTimestamp(true)
                         .maxFetchSize(1)
                         .remoteDirectory(remoteDirectory)
                         .autoCreateLocalDirectory(true)
