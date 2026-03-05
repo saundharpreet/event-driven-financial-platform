@@ -146,7 +146,7 @@ This service is optimized for high-volume transaction processing with built-in f
 
 The Transaction File Ingestor is designed for horizontal scalability with built-in support for multiple concurrent instances:
 
-### 🔄 Multi-Instance Coordination
+### Multi-Instance Coordination
 
 **Metadata Store Synchronization**
 - Spring Integration's **metadata store** tracks processed files across all instances
@@ -160,7 +160,7 @@ The Transaction File Ingestor is designed for horizontal scalability with built-
 3. If a file has already been processed by any instance, it is skipped
 4. Upon successful processing, the completion status is recorded with the instance ID and timestamp
 
-### ⚖️ Load Balancing
+### Load Balancing
 
 **Distributed Polling**
 - Multiple instances can poll the SFTP server simultaneously
@@ -174,7 +174,7 @@ The Transaction File Ingestor is designed for horizontal scalability with built-
 - Processing throughput scales linearly with the number of instances
 - Configurable chunk sizes allow fine-tuning per instance capacity
 
-### 🔒 Consistency Guarantees
+### Consistency Guarantees
 
 **Idempotent Processing**
 - Metadata store prevents re-processing of already-handled files
@@ -188,7 +188,7 @@ The Transaction File Ingestor is designed for horizontal scalability with built-
 - Failed job can be restarted on a different instance without data loss
 - Spring Batch's job repository tracks execution history for auditing
 
-### 📊 Monitoring Multi-Instance Deployments
+### Monitoring Multi-Instance Deployments
 
 **Per-Instance Metrics**
 - Each instance exposes `/actuator/metrics` endpoint with instance-specific data
@@ -201,7 +201,7 @@ The Transaction File Ingestor is designed for horizontal scalability with built-
 - Distributed traces correlate logs across instances via event IDs
 - PostgreSQL metadata store provides centralized audit trail
 
-### 🚀 Deployment Scenarios
+### Deployment Scenarios
 
 **Scale-Up Example (1 to 3 instances):**
 ```bash
