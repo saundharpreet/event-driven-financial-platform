@@ -28,7 +28,7 @@ public class MessageTransformService {
 
         File inboundFile = inboundMessage.getPayload();
         JobParameters jobParameters = new JobParametersBuilder()
-                .addJobParameter("input.filepath", inboundFile.getAbsolutePath(), String.class, true)
+                .addString("input.filepath", inboundFile.getAbsolutePath())
                 .toJobParameters();
 
         JobLaunchRequest jobLaunchRequest = new JobLaunchRequest(fileToKafkaJob, jobParameters);

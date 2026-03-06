@@ -2,7 +2,7 @@
 
 A robust, enterprise-grade Spring Boot application designed to ingest end-of-day (EOD) transaction files from SFTP servers, process them via Spring Batch, and publish Avro-encoded events to Apache Kafka. This service is a core component of the Banking Event Platform ecosystem.
 
-## 🚀 Key Features
+## Key Features
 
 * **Reliable Ingestion:** Automated SFTP polling with duplicate detection via a distributed metadata store.
 * **High-Performance Batching:** Chunk-oriented processing with configurable skip/retry policies and parallel execution.
@@ -10,7 +10,7 @@ A robust, enterprise-grade Spring Boot application designed to ingest end-of-day
 * **Type-Safe Serialization:** Schema-first design using Apache Avro for strict data contracts and evolution.
 * **Horizontal Scalability:** Native support for multi-instance deployments with synchronized state management.
 
-## 🛠 Tech Stack & Justification
+## Tech Stack & Justification
 
 | Technology | Role | Why It Was Chosen |
 | :--- | :--- | :--- |
@@ -22,7 +22,7 @@ A robust, enterprise-grade Spring Boot application designed to ingest end-of-day
 | **PostgreSQL** | Persistence | ACID-compliant state tracking for the Batch Job Repository. |
 | **Liquibase** | DB Migration | Version-controlled schema changes across all environments. |
 
-## 🏗 Engineering Highlight: Distributed Race Condition Fix
+## Engineering Highlight: Distributed Race Condition Fix
 
 This project identified and resolved a critical race condition in the **Spring Integration** framework affecting clustered deployments.
 
@@ -35,7 +35,7 @@ I documented this behavior and provided a reproducible case to the Spring team, 
 * **Official Fix:** Backported to Spring Integration 6.3.4 and 6.2.9.
 * **Case Discussion:** [Stack Overflow #78979169](https://stackoverflow.com/questions/78979169/)
 
-## 📈 Performance Benchmarks
+## Performance Benchmarks
 
 Local performance test results processing a standard EOD dataset:
 
@@ -49,7 +49,7 @@ Local performance test results processing a standard EOD dataset:
 
 > **Note:** Each transaction generates an average of 100 Kafka events, demonstrating the service's ability to handle high-volume write amplification efficiently.
 
-## 🛰 Distributed Processing & Scaling
+## Distributed Processing & Scaling
 
 The Ingestor is designed to scale horizontally across `n` instances:
 
@@ -57,7 +57,7 @@ The Ingestor is designed to scale horizontally across `n` instances:
 * **Idempotency:** The metadata store prevents duplicate processing even if polling intervals overlap.
 * **Fault Tolerance:** If an instance fails mid-process, the Job Repository maintains the last successful chunk, allowing a different instance to resume the work without data loss.
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 transaction-file-ingestor/
