@@ -36,7 +36,7 @@ This service is optimized for high-volume transaction processing with built-in f
 ## Frameworks & Technologies
 
 ### Spring Boot 3.x
-**Why Selected:** Spring Boot is the industry standard for building production-ready Java applications with minimal boilerplate.
+Spring Boot is the industry standard for building production-ready Java applications with minimal boilerplate.
 - **Rapid Development:** Convention over configuration allows fast iteration
 - **Embedded Tomcat:** No separate application server needed
 - **Auto-Configuration:** Intelligent defaults reduce manual setup
@@ -44,7 +44,7 @@ This service is optimized for high-volume transaction processing with built-in f
 - **Ecosystem:** Seamless integration with Spring ecosystem components
 
 ### Spring Integration
-**Why Selected:** Provides enterprise integration patterns for connecting disparate systems.
+Provides enterprise integration patterns for connecting disparate systems.
 - **SFTP Adapter:** Reliable file retrieval with configurable polling
 - **Message-Driven Workflows:** Decoupled, event-driven architecture
 - **Metadata Store:** Distributed file tracking across multiple instances—prevents duplicate processing
@@ -53,7 +53,7 @@ This service is optimized for high-volume transaction processing with built-in f
 - **Error Handling:** Built-in retry logic and error channels
 
 ### Spring Batch
-**Why Selected:** Purpose-built framework for batch processing large volumes of data efficiently.
+Purpose-built framework for batch processing large volumes of data efficiently.
 - **Chunked Processing:** Configurable chunk sizes for memory-efficient processing
 - **Job Management:** Robust job execution, restart, and recovery capabilities
 - **Item Processing:** Clean reader → processor → writer pattern
@@ -62,7 +62,7 @@ This service is optimized for high-volume transaction processing with built-in f
 - **Fault Tolerance:** Automatic retry and skip policies
 
 ### Apache Kafka & Spring Kafka
-**Why Selected:** Distributed event streaming platform for real-time data pipelines.
+Distributed event streaming platform for real-time data pipelines.
 - **High Throughput:** Processes millions of events per second
 - **Durability:** Persists events for fault tolerance and replay
 - **Scalability:** Horizontal scaling through partitioning
@@ -70,7 +70,7 @@ This service is optimized for high-volume transaction processing with built-in f
 - **Integration:** Seamless Spring Kafka integration for producer/consumer logic
 
 ### Apache Avro
-**Why Selected:** Schema-first, language-neutral data serialization format.
+Schema-first, language-neutral data serialization format.
 - **Schema Evolution:** Supports backward and forward compatibility
 - **Compact Serialization:** Smaller payload sizes than JSON/XML
 - **Schema Registry:** Confluent schema registry for schema management
@@ -78,7 +78,7 @@ This service is optimized for high-volume transaction processing with built-in f
 - **Cross-Language:** Works seamlessly across different programming languages
 
 ### PostgreSQL
-**Why Selected:** Robust, open-source relational database for data persistence.
+Robust, open-source relational database for data persistence.
 - **ACID Compliance:** Ensures data integrity for batch operations
 - **Spring JDBC Integration:** Simple, template-based database access
 - **Batch Infrastructure:** Spring Batch's own job repository and execution context
@@ -86,7 +86,7 @@ This service is optimized for high-volume transaction processing with built-in f
 - **Scalability:** Proven handling of enterprise workloads
 
 ### Liquibase
-**Why Selected:** Database change management and migration tool.
+Database change management and migration tool.
 - **Version Control:** Track all database schema changes
 - **Reproducibility:** Ensure consistent database state across environments
 - **Rollback Support:** Safely revert schema changes if needed
@@ -94,14 +94,14 @@ This service is optimized for high-volume transaction processing with built-in f
 - **CI/CD Integration:** Automated migrations in deployment pipelines
 
 ### Spring Boot Actuator
-**Why Selected:** Provides production-ready monitoring and management endpoints.
+Provides production-ready monitoring and management endpoints.
 - **Health Checks:** Built-in `/health` endpoint for liveness/readiness probes
 - **Metrics:** JMeter integration for performance monitoring
 - **Custom Endpoints:** Expose application-specific metrics
 - **Container-Ready:** Perfect for Kubernetes deployments with probe integration
 
 ### Apache Maven
-**Why Selected:** Industry-standard build automation tool for Java projects.
+Industry-standard build automation tool for Java projects.
 - **Dependency Management:** Centralized, transitive dependency handling
 - **Plugin Ecosystem:** Avro code generation, Spring Boot packaging, etc.
 - **Build Reproducibility:** Consistent builds across environments
@@ -203,7 +203,7 @@ The Transaction File Ingestor is designed for horizontal scalability with built-
 - Distributed traces correlate logs across instances via event IDs
 - PostgreSQL metadata store provides centralized audit trail
 
-# Engineering Highlight: Distributed Race Condition Fix
+## Engineering Highlight: Distributed Race Condition Fix
 
 This project led to a core framework improvement in **Spring Integration** by identifying and resolving a critical race condition affecting clustered deployments.
 
