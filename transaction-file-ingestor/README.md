@@ -207,7 +207,7 @@ The Transaction File Ingestor is designed for horizontal scalability with built-
 
 This project led to a core framework improvement in **Spring Integration** by identifying and resolving a critical race condition affecting clustered deployments.
 
-## The Challenge: "Exactly-Once" File Processing
+### The Challenge: "Exactly-Once" File Processing
 When running this application in a horizontally scaled environment (multiple instances), we utilized the `JdbcMetadataStore` to ensure that each file from an SFTP source was processed by only one node.
 
 However, we discovered that under high concurrency, multiple nodes would simultaneously attempt to "claim" the same file. This resulted in:
