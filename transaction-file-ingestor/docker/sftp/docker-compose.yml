@@ -5,5 +5,8 @@ services:
     ports:
       - "2222:22"
     volumes:
-      - ./sftp-data:/home/testuser/upload
+      - sftp_data:/home/testuser/upload
     command: testuser:password:1001
+
+volumes:
+  sftp_data:

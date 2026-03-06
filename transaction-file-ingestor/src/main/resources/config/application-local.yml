@@ -25,7 +25,7 @@ spring:
 
 inbound-channel:
   remote-directory: "/upload"
-  local-directory: "${java.io.tmpdir}/sftp"
+  local-directory: "${java.io.tmpdir}${random.uuid}/sftp"
   filename-pattern: ".*\\.txt$"
   poller:
     fixed-delay: 5000
@@ -38,6 +38,3 @@ batch:
 
 outbound-channel:
   topic-name: "eod-transaction-event"
-
-server:
-  port: 0

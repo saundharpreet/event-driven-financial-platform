@@ -8,6 +8,7 @@ import com.harpreetsaund.transactionfileingestor.processor.EodTransactionItemPro
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.annotation.EnableJdbcJobRepository;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.Job;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -31,12 +32,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Isolation;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 @EnableBatchProcessing
+@EnableJdbcJobRepository(isolationLevelForCreate = Isolation.REPEATABLE_READ)
 public class BatchConfig implements InitializingBean {
 
     private static final Logger logger = LoggerFactory.getLogger(BatchConfig.class);
