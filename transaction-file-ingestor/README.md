@@ -215,20 +215,20 @@ However, we discovered that under high concurrency, multiple nodes would simulta
 * **MySQL/MariaDB:** `CannotAcquireLockException` during index updates.
 * **Result:** The entire polling cycle would fail with "Transaction aborted" or "Read-only transaction" errors, rather than simply skipping the file.
 
-## Discovery & Open Source Contribution
+### Discovery & Open Source Contribution
 I documented this behavior and provided a reproducible case to the Spring team, leading to a framework-level fix that introduced database-specific "upsert" logic to handle these collisions gracefully.
 
 * **Discussion:** [Stack Overflow #78979169](https://stackoverflow.com/questions/78979169/)
 * **Official Fix:** Implemented in **Spring Integration 6.4.0**, and backported to **6.3.4** and **6.2.9**.
 
-## Technical Solution
+### Technical Solution
 By upgrading to the fixed versions, this project now handles concurrent inserts safely using native database features:
 1.  **PostgreSQL:** Uses `ON CONFLICT DO NOTHING` to prevent transaction death.
 2.  **MySQL/MariaDB:** Improved exception translation to handle lock-wait timeouts without crashing the poller.
 
 ### Deployment Scenarios
 
-**Scale-Up Example (1 to 3 instances):**
+**Scale-Up Example (1 to n instances):**
 ```bash
 # Instance 1
 docker run -e spring.profiles.active=local -e spring.application.instance-id=ingestor-1 transaction-file-ingestor
@@ -238,6 +238,8 @@ docker run -e spring.profiles.active=local -e spring.application.instance-id=ing
 
 # Instance 3
 docker run -e spring.profiles.active=local -e spring.application.instance-id=ingestor-3 transaction-file-ingestor
+
+# Up to n instances ...
 ```
 
 All three instances:
