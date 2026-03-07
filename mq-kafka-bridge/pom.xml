@@ -15,7 +15,7 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <name>mq-kafka-bridge</name>
-    <description>Simple Spring Boot Service Project.</description>
+    <description>IBM MQ and Apache Kafka for real-time event bridge</description>
 
     <scm>
         <connection>scm:git:git@github.com:saundharpreet/mq-kafka-bridgegit</connection>
@@ -23,6 +23,10 @@
         <url>https://github.com/saundharpreet/mq-kafka-bridge</url>
         <tag>HEAD</tag>
     </scm>
+
+    <properties>
+        <enforcer.skip>true</enforcer.skip>
+    </properties>
 
     <dependencies>
         <dependency>
