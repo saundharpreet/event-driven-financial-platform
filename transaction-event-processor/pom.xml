@@ -15,7 +15,7 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <name>transaction-event-processor</name>
-    <description>Simple Spring Boot Service Project.</description>
+    <description>A realtime Kafka to database event processor.</description>
 
     <scm>
         <connection>scm:git:git@github.com:saundharpreet/transaction-event-processorgit</connection>

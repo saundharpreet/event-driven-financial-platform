@@ -160,7 +160,7 @@ GET http://localhost:8080/actuator/metrics
 GET http://localhost:8080/actuator/metrics/{metric.name}
 ```
 
-## 🧪 Testing
+## Testing
 
 ### Run All Tests
 ```bash
@@ -232,7 +232,7 @@ spring:
         format_sql: true
 ```
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### Transactions Table
 
@@ -320,7 +320,7 @@ Monitor Kafka consumer/producer metrics:
 - Query execution times
 - Transaction throughput
 
-## 📝 Avro Schemas
+## Avro Schemas
 
 ### transaction-event.avsc
 Defines the real-time transaction event structure with event headers and payload.
@@ -329,10 +329,6 @@ Defines the real-time transaction event structure with event headers and payload
 Defines the end-of-day batch transaction event structure.
 
 Both schemas use standard event envelope pattern with metadata headers and business data payload.
-
-## 📄 License
-
-This project is part of the banking-event-platform and follows the organization's licensing.
 
 ## Related Projects
 
