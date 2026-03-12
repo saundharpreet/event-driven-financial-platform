@@ -1,8 +1,8 @@
-# Banking Event Platform
+# Event Driven Financial Platform
 
 ## Overview
 
-Banking Event Platform is an enterprise grade event driven microservices system designed to simulate real world banking transaction processing using modern distributed architecture patterns.
+Event Driven Financial Platform is an enterprise grade event driven microservices system designed to simulate real world banking transaction processing using modern distributed architecture patterns.
 
 This platform demonstrates how batch and real time financial data can be ingested, processed, stored, and exposed through APIs using Kafka as the central event streaming backbone.
 
@@ -23,11 +23,11 @@ This project is built as a proof of concept to showcase end to end integration u
 
 This repository contains multiple microservices and supporting modules.
 
-### transaction-file-ingestor
+### eod-transaction-file-processor
 
-Reads batch files and publishes transaction events to Kafka.
+Reads batch EOD transaction files and publishes transaction events to Kafka.
 
-### mq-kafka-bridge
+### transaction-event-bridge
 
 Consumes real time messages from MQ and publishes them to Kafka.
 
@@ -41,11 +41,9 @@ This service acts as the only database writer.
 
 Provides REST APIs to access and manage transaction and account data.
 
-### fraud-detection-service
+### transaction-api-client
 
-Consumes transaction events and performs fraud detection logic.
-
-Publishes fraud alerts to Kafka.
+Client library for interacting with the transaction API service.
 
 ## High Level Flow
 
@@ -82,13 +80,13 @@ MQ → Kafka → Database → API
 
 ## Repository Structure
 
-- banking-event-platform
+- event-driven-financial-platform
 
-- transaction-file-ingestor
-- mq-kafka-bridge
+- eod-transaction-file-processor
+- transaction-event-bridge
 - transaction-event-processor
 - transaction-api-service
-- fraud-detection-service
+- transaction-api-client
 
 - database-scripts
 - docker-config
