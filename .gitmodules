@@ -1,0 +1,15 @@
+[submodule "eod-transaction-file-processor"]
+	path = eod-transaction-file-processor
+	url = https://github.com/saundharpreet/eod-transaction-file-processor
+[submodule "transaction-api-client"]
+	path = transaction-api-client
+	url = https://github.com/saundharpreet/transaction-api-client
+[submodule "transaction-api-service"]
+	path = transaction-api-service
+	url = https://github.com/saundharpreet/transaction-api-service
+[submodule "transaction-event-bridge"]
+	path = transaction-event-bridge
+	url = https://github.com/saundharpreet/transaction-event-bridge
+[submodule "transaction-event-processor"]
+	path = transaction-event-processor
+	url = https://github.com/saundharpreet/transaction-event-processor
